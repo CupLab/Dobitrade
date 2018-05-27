@@ -1,5 +1,4 @@
 const $ = require('jquery');
-const _ = require('underscore');
 const crypto = require('crypto');
 
 module.exports = class CoinbeneHttpMDUtil {
@@ -14,27 +13,29 @@ module.exports = class CoinbeneHttpMDUtil {
         var params = $.extend({}, data);
         params["secret"] = secret;
 
-        // var ordered = [];
         var ordered = {};
-        _.each(_.keys(params).sort(), function (key) {
-            // ordered.push(key + ":" + params[key]);
+        var keysSort = Object.keys(params).sort();
+        keysSort.forEach(function (key) {
             ordered[key] = params[key];
         });
 
-        var ordered_str = "";
-        _.each(ordered, function(value, key, list) {
-            ordered_str += key.toUpperCase() + "=" + value.toString().toUpperCase() + "&";
+        var params_str = "";
+        var paramsKeys = Object.keys(ordered)
+        paramsKeys.forEach(function(key) {
+            params_str += key.toUpperCase() + "=" + ordered[key].toString().toUpperCase() + "&";
         });
-        ordered_str = ordered_str.substring(0, ordered_str.length - 1);
+        params_str = params_str.substring(0, params_str.length - 1);
 
-        return crypto.createHash('md5').update(ordered_str).digest('hex'); 
+        return crypto.createHash('md5').update(params_str).digest('hex'); 
     }
 
     httpGet(url, resource, params='', success_func, error_func, async=false) {
         var params_str = "";
-        _.each(params, function(value, key, list) {
-            params_str += key + "=" + value + "&";
+        var paramsKeys = Object.keys(params)
+        paramsKeys.forEach(function(key) {
+            params_str += key + "=" + params[key] + "&";
         });
+
         var url_str = url + resource + "?" + params_str.substring(0, params_str.length - 1);
         // console.log("httpGet: " + url_str);
 

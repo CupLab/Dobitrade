@@ -3,6 +3,10 @@
 目前网络上没有找到针对[Coinbene](http://www.coinbene.com)交易所的Javascript API，所以实现了其HTTP相关的认证，参考信息如下：  
 [0.0.0 Coinbene API文档](https://github.com/Coinbene/API-Documents-CHN/wiki/0.0.0-Coinbene-API%E6%96%87%E6%A1%A3)
 
+## Download 
+
+[Coinbene.browser.js](Coinbene.browser.js)
+
 #### Javascript
 
 ```Javascript
