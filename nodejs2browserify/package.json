@@ -1,25 +1,29 @@
 {
-	"name": "CupLabCCXT",
-	"version": "0.0.1",
-	"author": "zengjf",
-	"description": "CupLab CCXT Trade",
-	"keywords":["node.js","javascript"],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/CupLab/CupLabCCXT"
-	},
-	"scripts": {
-		"start": "make"
-	},
-	"dependencies": {
-		"jquery": "~3.3.1",
-		"underscore": "~1.9.0",
-		"node-fetch": "2.1.2",
-		"fetch-ponyfill": "4.1.0",
-		"cloudscraper": "1.4.1",
-		"crypto-js": "3.1.9-1",
-		"opencollective": "1.0.3",
-		"qs": "6.5.1"
-
-	}
+  "name": "CupLabCCXT",
+  "version": "0.0.1",
+  "author": "zengjf",
+  "description": "CupLab CCXT Trade",
+  "keywords": [
+    "node.js",
+    "javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CupLab/CupLabCCXT"
+  },
+  "scripts": {
+    "start": "make"
+  },
+  "dependencies": {
+    "cloudscraper": "1.4.1",
+    "crypto-js": "3.1.9-1",
+    "fetch-ponyfill": "4.1.0",
+    "jquery": "~3.3.1",
+    "node-fetch": "2.1.2",
+    "opencollective": "1.0.3",
+    "qs": "6.5.1",
+    "sync-request": "^6.0.0",
+    "underscore": "~1.9.0",
+    "sync-request":"6.0.0"
+  }
 }

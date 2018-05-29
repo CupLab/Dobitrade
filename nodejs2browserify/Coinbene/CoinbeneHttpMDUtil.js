@@ -1,4 +1,4 @@
-const $ = require('jquery');
+const request = require('sync-request');
 const crypto = require('crypto');
 
 module.exports = class CoinbeneHttpMDUtil {
@@ -10,7 +10,7 @@ module.exports = class CoinbeneHttpMDUtil {
     }
 
     buildMySign(data, secret) {
-        var params = $.extend({}, data);
+        var params = JSON.parse(JSON.stringify(data));
         params["secret"] = secret;
 
         var ordered = {};
@@ -29,7 +29,7 @@ module.exports = class CoinbeneHttpMDUtil {
         return crypto.createHash('md5').update(params_str).digest('hex'); 
     }
 
-    httpGet(url, resource, params='', success_func, error_func, async=false) {
+    httpGet(url, resource, params='', callback) {
         var params_str = "";
         var paramsKeys = Object.keys(params)
         paramsKeys.forEach(function(key) {
@@ -39,18 +39,20 @@ module.exports = class CoinbeneHttpMDUtil {
         var url_str = url + resource + "?" + params_str.substring(0, params_str.length - 1);
         // console.log("httpGet: " + url_str);
 
-        $.ajax({
-            url: url_str,
-            type: "GET",
-            async: async,
-            contentType: "application/x-www-form-urlencoded",
-            cache: false,
-            success: success_func,
-            error: error_func
+	var res = request('GET', url_str, {
+            headers: {
+                "contentType": "application/x-www-form-urlencoded",
+            },
         });
+	
+	if (res.statusCode == 200) {
+	    callback(JSON.parse(res.getBody('utf8')));
+	} else {
+            callback({"status":"error"});
+        }
     }
 
-    httpPost(url, resource, params, success_func, error_func, async=false) {
+    httpPost(url, resource, params, callback) {
         params["timestamp"] = Date.now();
         params["apiid"] = this.apiid;
         params["sign"] = this.buildMySign(params, this.secret);
@@ -59,15 +61,17 @@ module.exports = class CoinbeneHttpMDUtil {
 
         // console.log("httpPost: " + url_str + "\r\n    data:" + JSON.stringify(params) + "\r\n    hash:" + params["sign"]);
 
-        $.ajax({
-            url: url_str,
-            type: "POST",
-            async: async,
-            data: JSON.stringify(params),
-            contentType: "application/json",
-            cache: false,
-            success: success_func,
-            error: error_func
+	var res = request('POST', url_str, {
+            headers: {
+                "contentType": "application/json",
+            },
+            json: params,
         });
+
+	if (res.statusCode == 200) {
+	    callback(JSON.parse(res.getBody('utf8')));
+	} else {
+            callback({"status":"error"});
+        }
     }
 }

@@ -10,7 +10,7 @@ module.exports = class CoinbeneSpotAPI {
     }
 
     // 获取Coinbene现货行情信息
-    ticker(symbol = "", success, error) {
+    ticker(symbol = "", callback) {
         var TICKER_RESOURCE = "/v1/market/ticker";
         var params={};
 
@@ -20,11 +20,11 @@ module.exports = class CoinbeneSpotAPI {
             params["symbol"] = "all";
         }
 
-        return this.httpMDUtil.httpGet(this.url, TICKER_RESOURCE, params, success, error);
+        return this.httpMDUtil.httpGet(this.url, TICKER_RESOURCE, params, callback);
     }
 
     // 获取Coinbene现货市场深度信息
-    orderbook(symbol = "", depth = 5, success, error) {
+    orderbook(symbol = "", depth = 5, callback) {
         var DEPTH_RESOURCE = "/v1/market/orderbook";
         var params = {};
 
@@ -32,34 +32,34 @@ module.exports = class CoinbeneSpotAPI {
             params["symbol"] = symbol;
             params["depth"] = depth;
 
-            return this.httpMDUtil.httpGet(this.url, DEPTH_RESOURCE, params, success, error);
+            return this.httpMDUtil.httpGet(this.url, DEPTH_RESOURCE, params, callback);
         }
     }
 
     // 获取Coinbene现货历史交易信息
-    trades(symbol = "", success, error) {
+    trades(symbol = "", callback) {
         var TRADES_RESOURCE = "/v1/market/trades";
         var params = {};
 
         if (symbol != "") {
             params["symbol"] = symbol;
 
-            return this.httpMDUtil.httpGet(this.url, TRADES_RESOURCE, params, success, error);
+            return this.httpMDUtil.httpGet(this.url, TRADES_RESOURCE, params, callback);
         }
     }
 
     // 获取用户现货账户信息
-    balance(success, error) {
+    balance(callback) {
         var USERINFO_RESOURCE = "/v1/trade/balance";
         var params ={};
 
         params["account"] = "exchange";
 
-        return this.httpMDUtil.httpPost(this.url, USERINFO_RESOURCE, params, success, error);
+        return this.httpMDUtil.httpPost(this.url, USERINFO_RESOURCE, params, callback);
     }
 
     // 现货交易
-    place(symbol, tradeType, price="", quantity="", success, error) {
+    place(symbol, tradeType, price="", quantity="", callback) {
         var TRADE_RESOURCE = "/v1/trade/order/place";
         var params = {
             "symbol":symbol,
@@ -74,36 +74,36 @@ module.exports = class CoinbeneSpotAPI {
             params["quantity"] = quantity;
         }
 
-        return this.httpMDUtil.httpPost(this.url, TRADE_RESOURCE, params, success, error);
+        return this.httpMDUtil.httpPost(this.url, TRADE_RESOURCE, params, callback);
     }
 
     // 现货取消订单
-    cancel(orderId, success, error) {
+    cancel(orderId, callback) {
         var CANCEL_ORDER_RESOURCE = "/v1/trade/order/cancel";
         var params = {
              'orderid':orderId
         };
 
-        return this.httpMDUtil.httpPost(this.url, CANCEL_ORDER_RESOURCE, params, success, error);
+        return this.httpMDUtil.httpPost(this.url, CANCEL_ORDER_RESOURCE, params, callback);
     }
 
     // 现货订单信息查询
-    info(orderId, success, error) {
+    info(orderId, callback) {
         var ORDER_INFO_RESOURCE = "/v1/trade/order/info";
         var params = {
             'orderid':orderId
         };
 
-        return this.httpMDUtil.httpPost(this.url, ORDER_INFO_RESOURCE, params, success, error);
+        return this.httpMDUtil.httpPost(this.url, ORDER_INFO_RESOURCE, params, callback);
     }
 
     // 现货批量订单信息查询
-    ordersinfo(symbol, success, error) {
+    ordersinfo(symbol, callback) {
         var ORDERS_INFO_RESOURCE = "/v1/trade/order/open-orders";
         var params = {
             "symbol":symbol
         };
 
-        return this.httpMDUtil.httpPost(this.url, ORDERS_INFO_RESOURCE, params, success, error);
+        return this.httpMDUtil.httpPost(this.url, ORDERS_INFO_RESOURCE, params, callback);
     }
 }
